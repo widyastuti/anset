@@ -6,7 +6,6 @@ import re
 import tweepy
 from tweepy import OAuthHandler
 import pickle
-import regex as re
 import csv
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from nltk.tag.perceptron import PerceptronTagger
