@@ -33,5 +33,6 @@ def tweets():
         tweets = api.get_tweets()
         return jsonify({'data': tweets,'count': len(tweets)})
 
-port = int(os.environ.get('PORT', 5000))
-app.run(host="0.0.0.0", port=port, debug=True)
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
