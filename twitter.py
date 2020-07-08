@@ -8,8 +8,9 @@ from tweepy import OAuthHandler
 import pickle
 import csv
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+import nltk
 from nltk.tag.perceptron import PerceptronTagger
-
+nltk.download('averaged_perceptron_tagger')
 
 class TwitterClient(object):
 
