@@ -87,8 +87,8 @@ class TwitterClient(object):
 
     def get_tweet_sentiment(self, tweet):
         tweet = self.pos_tagger(tweet)
-        with open('cls tfidf/classifier_n.pickle','rb') as f : clf = pickle.load(f)
-        with open('cls tfidf/tfidfmodel_n.pickle','rb') as f : tfidf = pickle.load(f)
+        with open('cls tfidf/classifierNB.pickle','rb') as f : clf = pickle.load(f)
+        with open('cls tfidf/tfidfmodelNB.pickle','rb') as f : tfidf = pickle.load(f)
         analysis = clf.predict(tfidf.transform([tweet]).toarray())
         if analysis > 0:
             return 'positive'
