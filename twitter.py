@@ -52,21 +52,13 @@ class TwitterClient(object):
     def clean_tweet(self, tweet):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
-    def norm_slangword(self,tweet):
-        tweet = self.clean_tweet(tweet)
-        slangword_kamus = csv.reader(open('files/slangword_list.csv')) #
-        slangword_kamus = dict((rows[0],rows[1]) for rows in slangword_kamus)
-        for key in slangword_kamus:
-            tweet = tweet.replace(key, slangword_kamus[key])
-        return tweet
-
     def norm_stopword(self, tweet):
         tweet = self.norm_slangword(tweet)
-        with open('files/stopword_bahasa.txt', "r") as file:
-            stopword = file.read().splitlines()
-            for word in stopword:
-                tweet = tweet.replace(word,"")
-            return tweet
+        factory = StopWordRemoverFactory()
+        stopword = factory.create_stop_word_remover()
+        stopword.remove(tweet)
+        return tweet
+
 
     def stemmer(self, tweet):
         tweet = self.norm_stopword(tweet)
@@ -75,11 +67,20 @@ class TwitterClient(object):
         tweet = stemmer.stem(tweet)
         return tweet
 
+    def negation_handeling(self,tweet):
+        tweet= self.norm_stopword(tweet)
+        word_neg=['tidak ','non ','tak ','bukan ','enggak ','kagak ','tiada ','tanpa ']
+        tweet = ' '.join(['tidak_' if tweet in word_neg else tweet for tweet in tweet.split() ])
+        negation_kamus = csv.reader(open('files/antonim_list.csv'))
+        negation_kamus = dict((rows[0],rows[1]) for rows in negation_kamus)
+        for key in negation_kamus:
+            tweet = tweet.replace(key, negation_kamus[key])
+        return tweet
+
     def pos_tagger(self, tweet):
         tweet = self.stemmer(tweet)
         TAGPICKLE='files/averaged_perceptron_tagger_id.pickle'
         tagger = PerceptronTagger(load=TAGPICKLE)
-#
         tag_result =tagger.tag(tweet.split())
         tweet= " ".join([x+"_"+y for x,y in tag_result])
         return tweet
