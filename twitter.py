@@ -28,8 +28,8 @@ class TwitterClient(object):
             self.lang = lang
             self.retweets_only = retweets_only
             self.with_sentiment = with_sentiment
-            self.api = tweepy.API(self.auth, timeout=1000)
-            self.tweet_count_max = 50
+            self.api = tweepy.API(self.auth, timeout=100)
+            self.tweet_count_max = 5
             self.tweet_mode = tweet_mode
         except:
             print("Error: Authentication Failed")
