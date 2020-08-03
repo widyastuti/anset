@@ -32,8 +32,8 @@ def tweets():
         api.set_tweet_mode(tweet_mode)
         tweets = api.get_tweets()
         return jsonify({'data': tweets,'count': len(tweets)})
-
-port = int(os.environ.get('PORT', 8081))
+    
+port = int(os.environ.get('PORT', 5010))
 app.run(host="0.0.0.0", port=port, debug=True)
 #if __name__ == '__main__':
 #    app.run()
