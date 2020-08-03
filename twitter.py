@@ -29,7 +29,7 @@ class TwitterClient(object):
             self.retweets_only = retweets_only
             self.with_sentiment = with_sentiment
             self.api = tweepy.API(self.auth, timeout=100)
-            self.tweet_count_max = 5
+            self.tweet_count_max = 10
             self.tweet_mode = tweet_mode
         except:
             print("Error: Authentication Failed")
@@ -68,15 +68,15 @@ class TwitterClient(object):
                 tweet = tweet.replace(word,"")
             return tweet
 
-    def stemmer(self, tweet):
-        tweet = self.norm_stopword(tweet)
-        factory = StemmerFactory()
-        stemmer = factory.create_stemmer()
-        tweet = stemmer.stem(tweet)
-        return tweet
+#     def stemmer(self, tweet):
+#         tweet = self.norm_stopword(tweet)
+#         factory = StemmerFactory()
+#         stemmer = factory.create_stemmer()
+#         tweet = stemmer.stem(tweet)
+#         return tweet
 
     def pos_tagger(self, tweet):
-        tweet = self.stemmer(tweet)
+        tweet = self.norm_stopword(tweet)
         TAGPICKLE='files/averaged_perceptron_tagger_id.pickle'
         tagger = PerceptronTagger(load=TAGPICKLE)
 #
